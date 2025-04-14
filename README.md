@@ -27,9 +27,13 @@ As matrículas dos alunos são convertidas em **hashes**, assegurando que as ide
 1. Clone o repositório:
 
 git clone https://github.com/FelipeBragaUEA/voting_system.git
+
 cd voting_system
+
 python backend/gerar_eleitores.py (para gerar o json de possíveis matrículas dos alunos)
+
 pip install flask flask-cors
+
 python backend/app.py
 
 2. Instale as dependências:
