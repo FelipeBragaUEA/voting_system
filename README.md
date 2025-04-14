@@ -26,32 +26,32 @@ As matrículas dos alunos são convertidas em **hashes**, assegurando que as ide
 
 1. Clone o repositório:
 
-git clone https://github.com/FelipeBragaUEA/voting_system.git
-
-cd voting_system
-
-python backend/gerar_eleitores.py (para gerar o json de possíveis matrículas dos alunos)
-
-pip install flask flask-cors
-
-python backend/app.py
+  - git clone https://github.com/FelipeBragaUEA/voting_system.git
+  
+  - cd voting_system
+  
+  - python backend/gerar_eleitores.py (para gerar o json de possíveis matrículas dos alunos)
+  
+  - pip install flask flask-cors
+  
+  - python backend/app.py
 
 2. Instale as dependências:
 
-pip install flask flask-cors
+  - pip install flask flask-cors
 
 
 3. Rode o servidor:
 
-python app.py
+  - python app.py
 
 4. Acesse o sistema em seu navegador:
 
-Página de votação: http://127.0.0.1:5000/
+- Página de votação: http://127.0.0.1:5000/
 
-Resultados: http://127.0.0.1:5000/resultados
+- Resultados: http://127.0.0.1:5000/resultados
 
-Blockchain: http://127.0.0.1:5000/blocos.html
+- Blockchain: http://127.0.0.1:5000/blocos.html
 
 
 🔒 Observação: Este sistema é um protótipo e não deve ser utilizado em eleições oficiais.
