@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Urna Eletrônica Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .mensagem {
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Urna Eletrônica Digital</h1>
+            <p>Sistema de Votação Segura com Blockchain</p>
+        </header>
+
+        <main class="urna">
+            <label for="eleitor_id" class="label">ID do Eleitor</label>
+            <input type="text" id="eleitor_id" placeholder="Digite seu ID" class="input-id">
+
+            <div class="botoes-voto">
+                <button onclick="votar('Carlos Alberto')">Carlos Alberto</button>
+                <button onclick="votar('Felipe Almeida')">Felipe Almeida</button>
+                <button onclick="votar('Felipe Braga')">Felipe Braga</button>
+            </div>
+
+            <p id="mensagem" class="mensagem"></p>
+
+            <a href="resultados.html" class="link-resultado">📊 Ver Resultados</a>
+            <a href="blocos.html" class="link-resultado">🔗 Ver Blocos da Blockchain</a>
+        </main>
+    </div>
+
+    <script>
+        function mostrarMensagem(texto, tipo = "erro") {
+            const divMensagem = document.getElementById("mensagem");
+            const icone = tipo === "sucesso" ? "✅" : "❌";
+            const cor = tipo === "sucesso" ? "green" : "red";
+
+            divMensagem.textContent = `${icone} ${texto}`;
+            divMensagem.style.color = cor;
+            divMensagem.style.display = "block";
+
+            setTimeout(() => {
+                divMensagem.textContent = "";
+                divMensagem.style.display = "none";
+            }, 1000);
+        }
+
+        function votar(nomeCandidato) {
+            const eleitorId = document.getElementById("eleitor_id").value.trim();
+
+            if (!eleitorId) {
+                mostrarMensagem("Por favor, insira seu ID de eleitor.");
+                return;
+            }
+
+            fetch("/votar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ eleitor_id: eleitorId, voto: nomeCandidato })
+            })
+            .then(res => res.json().then(data => ({ status: res.status, body: data })))
+            .then(({ status, body }) => {
+                if (status === 200) {
+                    mostrarMensagem(body.mensagem, "sucesso");
+                } else {
+                    mostrarMensagem(body.erro, "erro");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                mostrarMensagem("Erro ao enviar voto. Tente novamente.");
+            });
+        }
+    </script>
+</body>
+</html>

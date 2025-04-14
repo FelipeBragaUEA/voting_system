@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Blockchain de Votos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">📦 Blocos da Blockchain</h1>
+    
+        <div id="blockchain" class="blockchain-container"></div>
+    
+        <a href="index.html" class="link-resultado">⬅ Voltar</a>
+    </div>
+    
+    
+    <script>
+        fetch("http://127.0.0.1:5000/blocos_api")
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById("blockchain");
+                data.forEach((bloco, index) => {
+                    const card = document.createElement("div");
+                    card.className = "bloco";
+
+                    const dados = bloco.dados || {};
+                    const dataFormatada = new Date(bloco.timestamp * 1000).toLocaleString();
+
+                    card.innerHTML = `
+                        <strong>Bloco #${bloco.index}</strong>
+                        <span><b>Timestamp:</b> ${dataFormatada}</span>
+                        <span><b>Nonce:</b> ${bloco.nonce}</span>
+                        <span><b>Hash:</b> ${bloco.hash}</span>
+                        <span><b>Anterior:</b> ${bloco.hash_anterior}</span>
+                        <span><b>Voto:</b> ${dados.vote || 'N/A'}</span>
+                        <span><b>Eleitor:</b> ${dados.elector_hash || 'N/A'}</span>
+                    `;
+
+                    container.appendChild(card);
+
+                    if (index < data.length - 1) {
+                        const seta = document.createElement("div");
+                        seta.className = "seta";
+                        seta.innerHTML = "➡️";
+                        container.appendChild(seta);
+                    }
+                });
+            })
+            .catch(error => {
+                document.getElementById("blockchain").innerHTML = "<p class='mensagem'>Erro ao carregar blocos.</p>";
+                console.error("Erro ao carregar blocos:", error);
+            });
+    </script>
+</body>
+</html>

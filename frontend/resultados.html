@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Resultados da Votação</h1>
+            <p>Confira a contagem de votos em tempo real</p>
+        </header>
+
+        <main id="resultados" class="resultados-bloco">
+            <p class="mensagem">Carregando resultados...</p>
+        </main>
+
+        <a href="index.html" class="link-resultado">⬅ Voltar para votar</a>
+        <a href="blocos.html" class="link-resultado">🔗 Ver Blocos da Blockchain</a>
+    </div>
+
+    <script>
+        fetch("http://127.0.0.1:5000/resultados_api")
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById("resultados");
+                container.innerHTML = "";
+                for (let [candidato, votos] of Object.entries(data)) {
+                    const card = document.createElement("div");
+                    card.className = "resultado-card";
+                    card.innerHTML = `<strong>${candidato}</strong><span>${votos} voto(s)</span>`;
+                    container.appendChild(card);
+                }
+            })
+            .catch(error => {
+                const container = document.getElementById("resultados");
+                container.innerHTML = "<p class='mensagem'>Erro ao carregar resultados.</p>";
+                console.error("Erro ao carregar resultados:", error);
+            });
+    </script>
+</body>
+</html>
